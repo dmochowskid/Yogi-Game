@@ -10,13 +10,12 @@ using System.Windows.Forms;
 
 namespace Yogi
 {
-    class Game
+    class Game : Module
     {
-        public Game(Size gameWindowSize, PictureBox pictureBoxOnBitmap, BestScores bestScores)
-        {
-            // bestScores
-            this.bestScores = bestScores;
+        private Game() { }
 
+        private Game(Size gameWindowSize, PictureBox pictureBoxOnBitmap)
+        {
             // Set Flags
             startGame = false;
             pausedGame = false;
@@ -37,11 +36,10 @@ namespace Yogi
             pictureBoxOnBitmap.Image = mainBitmap;
 
             // gameOver
-            gOver = new GameOver(gameWindowSize, pictureBoxOnBitmap, bestScores);
+            gOver = GameOver.getInstance(gameWindowSize, pictureBoxOnBitmap);
 
             fallingElements = new List<Element>();
 
-            yogi = new YogiBear(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % YogiBear.sizeOfPicture.Width), gameWindowSize.Height - YogiBear.sizeOfPicture.Height));
         }
 
         private const int moveYogi = 20;
@@ -58,10 +56,28 @@ namespace Yogi
         private Bitmap mainBitmap;
         private PictureBox pictureBoxOnBitmap;
         private GameOver gOver;
-        private BestScores bestScores;
         private int moveDown; // Must : Rock.sizeOfImage.Height % moveDown == 0
         private int pixelFromLastAddNewElemenet;
-        
+        private static Game instance;
+
+        public static Game getInstance(Size gameWindowSize, PictureBox pictureBoxOnBitmap)
+        {
+            if (instance == null)
+            {
+                instance = new Game(gameWindowSize, pictureBoxOnBitmap);
+            }
+            return instance;
+        }
+
+        public static Game getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new Game();
+            }
+            return instance;
+        }
+
         private void Refresh(Object myObject, EventArgs myEventArgs)
         {
             if (startGame == false)
@@ -98,7 +114,7 @@ namespace Yogi
                 g.DrawImage(i.getImage(), new Rectangle(i.position, Rock.sizeOfPicture));
 
             // Draw Yogi
-            g.DrawImage(yogi.getImage(), new Rectangle(yogi.position.X, yogi.position.Y - 24, YogiBear.sizeOfPicture.Width, YogiBear.sizeOfPicture.Height));
+            g.DrawImage(yogi.getImage(), new Rectangle(yogi.position, YogiBear.sizeOfPicture));
 
             // Draw Points
             SolidBrush b = new SolidBrush(SystemColors.HotTrack);
@@ -239,7 +255,7 @@ namespace Yogi
 
             fallingElements.Clear();
 
-            yogi.move(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % Rock.sizeOfPicture.Width), gameWindowSize.Height - YogiBear.sizeOfPicture.Height));
+            yogi = new YogiBear(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % YogiBear.sizeOfPicture.Width), gameWindowSize.Height - YogiBear.sizeOfPicture.Height - 24));
         }
 
         public void stop()

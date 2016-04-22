@@ -13,31 +13,31 @@ namespace Yogi
 {
     public partial class MainWindow : Form
     {
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            bestScores = BestScores.getInstance(ClientSize, pbGame);
+
+            game = Game.getInstance(ClientSize, pbGame);
+            
+            set = new Settings();
+            set.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            pbGame.Size = new Size(ClientSize.Width, ClientSize.Height);
+        }
+
         private Game game;
         private BestScores bestScores;
         private Settings set;
-
-        public MainWindow()
-        { 
-            InitializeComponent();
-
-            bestScores = new BestScores(ClientSize, pbGame);
-
-            game = new Game(ClientSize, pbGame, bestScores);
-
-            pbGame.Size = new System.Drawing.Size(ClientSize.Width, ClientSize.Height);
-
-            set = new Settings();
-            set.FormBorderStyle = FormBorderStyle.FixedSingle;
-        }
-
+        
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (game.startGame == true)
             {
                 game.pause();
                 DialogResult result = MessageBox.Show("Do you want to finish this game?", "New Game", MessageBoxButtons.OKCancel);
-                if (result == System.Windows.Forms.DialogResult.Cancel)
+                if (result == DialogResult.Cancel)
                 {
                     game.resume();
                     return;
@@ -45,8 +45,8 @@ namespace Yogi
             }
 
             pbGame.Focus();
-
             pbGame.Controls.Clear();
+
             game.display();
         }
         
@@ -58,7 +58,7 @@ namespace Yogi
             if(game.pausedGame == false)
                 pbGame.Controls.Clear();
 
-            bestScores.display(game);
+            bestScores.display();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)

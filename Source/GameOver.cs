@@ -13,10 +13,10 @@ namespace Yogi
 {
     class GameOver
     {
-        public GameOver(Size gameWindowSize, PictureBox mainPictureBox, BestScores bestScores)
+        private GameOver(Size gameWindowSize, PictureBox mainPictureBox)
         {
             this.mainPictureBox = mainPictureBox;
-            //s
+            //
             // lGameOver
             //
             lGameOver = new Label();
@@ -48,7 +48,7 @@ namespace Yogi
             this.bSubmit.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.bSubmit.Click += (sender, e) =>
             {
-                bestScores.updateScore(tbName.Text, score.points);
+                BestScores.getInstance().updateScore(tbName.Text, score.points);
                 mainPictureBox.Controls.Remove(lGameOver);
                 mainPictureBox.Controls.Remove(bSubmit);
                 mainPictureBox.Controls.Remove(tbName);
@@ -60,7 +60,17 @@ namespace Yogi
         private Button bSubmit;
         private PictureBox mainPictureBox;
         private Score score;
-
+        private static GameOver instance;
+        
+        public static GameOver getInstance(Size gameWindowSize, PictureBox mainPictureBox)
+        {
+            if (instance == null)
+            {
+                instance = new GameOver(gameWindowSize, mainPictureBox);
+            }
+            return instance;
+        }
+         
         public void disply(Score currentScore)
         {
             tbName.Text = "";

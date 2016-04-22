@@ -36,6 +36,7 @@
             this.pbGame = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGame)).BeginInit();
+            this.SuspendLayout();
             // 
             // menuStrip1
             // 
@@ -89,8 +90,11 @@
             this.ClientSize = new System.Drawing.Size(680, 384);
             this.Controls.Add(this.pbGame);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Yogi Bear";
             this.menuStrip1.ResumeLayout(false);
@@ -98,9 +102,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbGame)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+
         }
 
         #endregion

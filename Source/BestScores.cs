@@ -9,9 +9,11 @@ using System.Windows.Forms;
 
 namespace Yogi
 {
-    class BestScores
+    class BestScores : Module
     {
-        public BestScores(Size ClientSize, PictureBox pictureBoxOnBitmap)
+        private BestScores() { }
+
+        private BestScores(Size ClientSize, PictureBox pictureBoxOnBitmap)
         {
             // pictureBoxOnBitmap
             this.pictureBoxOnBitmap = pictureBoxOnBitmap;
@@ -31,12 +33,21 @@ namespace Yogi
             lBestScore.ForeColor = System.Drawing.SystemColors.HotTrack;
             lBestScore.AutoSize = true;
             //
+            // BestNameAll
+            //
+            lBestNameAll = new Label();
+            lBestNameAll.Name = "lBestNameAll";
+            lBestNameAll.BackColor = Color.Transparent;
+            lBestNameAll.Location = new System.Drawing.Point(ClientSize.Width / 2 - 130, 70);
+            lBestNameAll.Font = new Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            lBestNameAll.ForeColor = System.Drawing.SystemColors.HotTrack;
+            lBestNameAll.AutoSize = true;
+            //
             // BestScoresAll
             //
             lBestScoreAll = new Label();
             lBestScoreAll.Name = "lBestScoreAll";
             lBestScoreAll.BackColor = Color.Transparent;
-            lBestScoreAll.Location = new System.Drawing.Point(ClientSize.Width / 2 - 130, 70);
             lBestScoreAll.Font = new Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             lBestScoreAll.ForeColor = System.Drawing.SystemColors.HotTrack;
             lBestScoreAll.AutoSize = true;
@@ -55,19 +66,40 @@ namespace Yogi
                 pictureBoxOnBitmap.Controls.Remove(bBestScoreOk);
                 pictureBoxOnBitmap.Controls.Remove(lBestScore);
                 pictureBoxOnBitmap.Controls.Remove(lBestScoreAll);
-                game.resume();
+                pictureBoxOnBitmap.Controls.Remove(lBestNameAll);
+                Game.getInstance().resume();
             };
             bBestScoreOk.ForeColor = System.Drawing.SystemColors.HotTrack;
         }
 
         const string fileName = "best_scores.txt";
+      
         string[] bestName = { "none", "none" };
         int[] bestScore = new int[2];
         private Label lBestScore;
+        private Label lBestNameAll;
         private Label lBestScoreAll;
         private Button bBestScoreOk;
         private PictureBox pictureBoxOnBitmap;
-        private Game game;
+        private static BestScores instance;
+
+        public static BestScores getInstance(Size ClientSize, PictureBox pictureBoxOnBitmap)
+        {
+            if(instance == null)
+            {
+                instance = new BestScores(ClientSize, pictureBoxOnBitmap);
+            }
+            return instance;
+        }
+
+        public static BestScores getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new BestScores();
+            }
+            return instance;
+        }
 
         private void createFile()
         {
@@ -75,8 +107,11 @@ namespace Yogi
             {
                 using (StreamWriter wr = new StreamWriter(fileName))
                 {
-                    for (int i = 0; i < 5; i++)
-                        wr.WriteLine("none-0");
+                    wr.WriteLine("Mirek-10000");
+                    wr.WriteLine("Stefan-6000");
+                    wr.WriteLine("Jan-4000");
+                    wr.WriteLine("Andrzej-2000");
+                    wr.WriteLine("Seba-1000");
                 }
             }
         }
@@ -129,22 +164,41 @@ namespace Yogi
             }
         }
 
-        public void display(Game game)
+        private void readScores()
         {
-            this.game = game;
-
-            String line;
+            String lines;
             using (StreamReader sr = new StreamReader(fileName))
-                line = sr.ReadToEnd();
+                lines = sr.ReadToEnd();
 
-            lBestScoreAll.Text = System.String.Format(line);
-            
+            String[] line = lines.Split('\n');
+
+            String[] singleScore;
+            String tekst = "";
+            String name = "";
+            for(int i = 0; i < 5; i++)
+            {
+                singleScore = line[i].Split('-');
+                tekst += String.Format("{0}\n", singleScore[0]);
+                name += String.Format("-  {0}\n", singleScore[1]);
+            }
+            lBestNameAll.Text = String.Format(tekst);
+            lBestScoreAll.Text = String.Format(name);
+        }
+
+        public void display()
+        {
+            readScores();
+
+            pictureBoxOnBitmap.Controls.Add(lBestNameAll);
+            lBestScoreAll.Location = new System.Drawing.Point(lBestNameAll.Location.X + lBestNameAll.Size.Width, 70);
             pictureBoxOnBitmap.Controls.Add(lBestScore);
             pictureBoxOnBitmap.Controls.Add(bBestScoreOk);
             pictureBoxOnBitmap.Controls.Add(lBestScoreAll);
+
             lBestScoreAll.BringToFront();
             lBestScore.BringToFront();
             bBestScoreOk.BringToFront();
+            lBestNameAll.BringToFront();
         }
     }
 }

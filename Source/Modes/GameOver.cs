@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Yogi
 {
-    class GameOver
+    class GameOver : Mode
     {
-        private GameOver(Size gameWindowSize, PictureBox mainPictureBox)
+        private GameOver() { }
+
+        private GameOver(PictureBox mainPictureBox)
         {
-            this.mainPictureBox = mainPictureBox;
             //
             // lGameOver
             //
@@ -24,7 +17,7 @@ namespace Yogi
             lGameOver.Name = "lGameOver";
             lGameOver.BackColor = Color.Transparent;
             lGameOver.Size = new Size(200, 29);
-            lGameOver.Location = new Point(gameWindowSize.Width / 2 - 72, 100);
+            lGameOver.Location = new Point(mainPictureBox.Size.Width / 2 - 72, 100);
             lGameOver.Font = new Font("Showcard Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             lGameOver.ForeColor = System.Drawing.SystemColors.HotTrack;
             // 
@@ -48,36 +41,52 @@ namespace Yogi
             this.bSubmit.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.bSubmit.Click += (sender, e) =>
             {
-                BestScores.getInstance().updateScore(tbName.Text, score.points);
-                mainPictureBox.Controls.Remove(lGameOver);
-                mainPictureBox.Controls.Remove(bSubmit);
-                mainPictureBox.Controls.Remove(tbName);
+                BestScores.getInstance().updateScore(tbName.Text, Game.getInstance().score.points);
+                removeControls();
             };
+
+            this.mainPictureBox = mainPictureBox;
         }
 
         private Label lGameOver;
         private TextBox tbName;
         private Button bSubmit;
         private PictureBox mainPictureBox;
-        private Score score;
         private static GameOver instance;
         
-        public static GameOver getInstance(Size gameWindowSize, PictureBox mainPictureBox)
+        public static GameOver getInstance(PictureBox mainPictureBox)
         {
             if (instance == null)
-            {
-                instance = new GameOver(gameWindowSize, mainPictureBox);
-            }
+                instance = new GameOver(mainPictureBox);
             return instance;
         }
-         
-        public void disply(Score currentScore)
+
+        public static GameOver getInstance()
+        {
+            if (instance == null)
+                instance = new GameOver();
+            return instance;
+        }
+        
+        public void display()
         {
             tbName.Text = "";
-            score = currentScore;
+
+            addControls();
+        }
+
+        private void addControls()
+        {
             mainPictureBox.Controls.Add(lGameOver);
             mainPictureBox.Controls.Add(bSubmit);
             mainPictureBox.Controls.Add(tbName);
+        }
+
+        private void removeControls()
+        {
+            mainPictureBox.Controls.Remove(lGameOver);
+            mainPictureBox.Controls.Remove(bSubmit);
+            mainPictureBox.Controls.Remove(tbName);
         }
     }
 }

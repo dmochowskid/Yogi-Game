@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Yogi
@@ -17,14 +10,13 @@ namespace Yogi
         {
             InitializeComponent();
 
-            bestScores = BestScores.getInstance(ClientSize, pbGame);
+            pbGame.Size = new Size(ClientSize.Width, ClientSize.Height);
 
-            game = Game.getInstance(ClientSize, pbGame);
+            bestScores = BestScores.getInstance(pbGame);
+
+            game = Game.getInstance(pbGame);
             
             set = new Settings();
-            set.FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            pbGame.Size = new Size(ClientSize.Width, ClientSize.Height);
         }
 
         private Game game;
@@ -81,9 +73,7 @@ namespace Yogi
         private void keyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (game.startGame == true)
-            {
                 game.move(e.KeyCode);
-            }
             if (e.KeyCode == Keys.Space)
             {
                 if (game.pausedGame == true)

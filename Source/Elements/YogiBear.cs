@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Yogi
 {
@@ -15,6 +10,7 @@ namespace Yogi
         }
 
         public static Size sizeOfPicture = new Size(Yogi.Properties.Resources.Yogi_Bear.Size.Width, Yogi.Properties.Resources.Yogi_Bear.Height);
+
         public Point position { get; private set; }
 
         public Bitmap getImage()

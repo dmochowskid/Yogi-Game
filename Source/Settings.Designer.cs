@@ -166,6 +166,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(231, 199);
             this.ControlBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Controls.Add(this.lHard);
             this.Controls.Add(this.lMedium);
             this.Controls.Add(this.lEasy);

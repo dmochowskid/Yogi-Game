@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Yogi
 {
-    class Rock : Element
+    class Basket : Element
     {
-        public Rock(Point startPosition)
+        public Basket(Point startPosition)
         {
             position = startPosition;
         }
 
-        public static Size sizeOfPicture = new Size(Yogi.Properties.Resources.Rock.Size.Width, Yogi.Properties.Resources.Rock.Height);
+        public static Size sizeOfPicture = new Size(Yogi.Properties.Resources.Basket.Size.Width, Yogi.Properties.Resources.Basket.Height);
         public Point position { get; private set; }
-        
+
         public Bitmap getImage()
         {
-            return Yogi.Properties.Resources.Rock;
+            return Yogi.Properties.Resources.Basket;
         }
 
         public void move(Point coordinates)

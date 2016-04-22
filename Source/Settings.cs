@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Yogi
@@ -21,9 +15,10 @@ namespace Yogi
 
             // My initialize
             level = Level.MEDIUM;
-            changeActiveLevel(Level.MEDIUM);
             lKey = Keys.Left;
             rKey = Keys.Right;
+
+            changeActiveLevel(Level.MEDIUM);
         }
 
         public static Level level { get; private set; }
@@ -49,7 +44,7 @@ namespace Yogi
                 MessageBox.Show(string.Format("Error description: {0}", er), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-}
+        }
 
         private void cbRight_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -72,7 +67,7 @@ namespace Yogi
                 MessageBox.Show(string.Format("Error description: {0}", er), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-}
+        }
 
         private void bOK_Click(object sender, EventArgs e)
         {

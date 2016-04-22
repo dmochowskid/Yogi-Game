@@ -65,9 +65,14 @@ namespace Yogi
         {
             if (game.startGame == true || game.pausedGame == true)
             {
-                game.pause();
-                MessageBox.Show("You can not change settings during the game!");
-                game.resume();
+                if(game.startGame == true)
+                {
+                    game.pause();
+                    MessageBox.Show("You can not change settings during the game!");
+                    game.resume();
+                }
+                else
+                    MessageBox.Show("You can not change settings during the game!");
             }
             else
                 set.ShowDialog();

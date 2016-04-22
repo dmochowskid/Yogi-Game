@@ -45,9 +45,9 @@ namespace Yogi
             yogi = new YogiBear(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % YogiBear.sizeOfPicture.Width), gameWindowSize.Height - YogiBear.sizeOfPicture.Height));
         }
 
-        private const int moveYogi = 40;
-        private const int moveDown = 4; // Must : Rock.sizeOfImage.Height % moveDown == 0
-        private const int gameSpeed = 5;
+        private const int moveYogi = 20;
+        private const int moveDown = 8; // Must : Rock.sizeOfImage.Height % moveDown == 0
+        private const int gameSpeed = 50;
 
         public bool pausedGame { get; private set; }
         public bool startGame { get; private set; }
@@ -164,10 +164,17 @@ namespace Yogi
 
         private void collisionDetection()
         {
+            int distanceTop = 5;
+            int distanceBottom = 15;
+            int distanceSide = 5;
+
             for (int i = 0; i < fallingElements.Count; i++)
             {
-                if (fallingElements[i].position.Y > (gameWindowSize.Height - YogiBear.sizeOfPicture.Height - Basket.sizeOfPicture.Height))
-                    if (Math.Abs(fallingElements[i].position.X - yogi.position.X + ((Basket.sizeOfPicture.Width - YogiBear.sizeOfPicture.Width) / 2)) < YogiBear.sizeOfPicture.Width / 2)
+                if (fallingElements[i].position.Y + Basket.sizeOfPicture.Height > (gameWindowSize.Height - YogiBear.sizeOfPicture.Height - 24 +  distanceTop) && // Z gory
+                    fallingElements[i].position.Y < gameWindowSize.Height - 24 - distanceBottom) // Z dolu
+                {
+                    // Jezeli odleglosc srodkow figur < Od dlugosc sumy srednic
+                    if (Math.Abs(fallingElements[i].position.X + Basket.sizeOfPicture.Width / 2 - yogi.position.X - YogiBear.sizeOfPicture.Width / 2) < (YogiBear.sizeOfPicture.Width + Basket.sizeOfPicture.Width) / 2 - distanceSide)
                     {
                         if (fallingElements[i] is Basket)
                         {
@@ -180,6 +187,7 @@ namespace Yogi
                             gOver.disply(score);
                         }
                     }
+                }
             }
         }
 

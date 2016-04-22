@@ -16,7 +16,7 @@ namespace Yogi
         public GameOver(Size gameWindowSize, PictureBox mainPictureBox, BestScores bestScores)
         {
             this.mainPictureBox = mainPictureBox;
-            //
+            //s
             // lGameOver
             //
             lGameOver = new Label();

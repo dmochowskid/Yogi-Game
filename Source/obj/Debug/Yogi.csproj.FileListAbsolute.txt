@@ -7,3 +7,11 @@ C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.Properties.Resources.resources
 C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.csproj.GenerateResource.Cache
 C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.exe
 C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.pdb
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Debug\Yogi.exe.config
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Debug\Yogi.exe
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Debug\Yogi.pdb
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.MainWindow.resources
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.Properties.Resources.resources
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.csproj.GenerateResource.Cache
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.exe
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.pdb

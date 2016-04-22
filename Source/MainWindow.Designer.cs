@@ -99,7 +99,8 @@
             this.ResumeLayout(false);
             this.PerformLayout();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
         }
 
         #endregion

@@ -57,7 +57,7 @@
             this.lLeft.AutoSize = true;
             this.lLeft.Font = new System.Drawing.Font("Showcard Gothic", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lLeft.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lLeft.Location = new System.Drawing.Point(3, 42);
+            this.lLeft.Location = new System.Drawing.Point(5, 42);
             this.lLeft.Name = "lLeft";
             this.lLeft.Size = new System.Drawing.Size(47, 21);
             this.lLeft.TabIndex = 1;
@@ -68,7 +68,7 @@
             this.lRight.AutoSize = true;
             this.lRight.Font = new System.Drawing.Font("Showcard Gothic", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lRight.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lRight.Location = new System.Drawing.Point(3, 69);
+            this.lRight.Location = new System.Drawing.Point(5, 69);
             this.lRight.Name = "lRight";
             this.lRight.Size = new System.Drawing.Size(63, 21);
             this.lRight.TabIndex = 2;
@@ -79,8 +79,8 @@
             this.cbLeft.FormattingEnabled = true;
             this.cbLeft.Items.AddRange(new object[] {
             "Left",
-            "L"});
-            this.cbLeft.Location = new System.Drawing.Point(72, 69);
+            "A"});
+            this.cbLeft.Location = new System.Drawing.Point(72, 42);
             this.cbLeft.Name = "cbLeft";
             this.cbLeft.Size = new System.Drawing.Size(121, 21);
             this.cbLeft.TabIndex = 3;
@@ -92,8 +92,8 @@
             this.cbRight.FormattingEnabled = true;
             this.cbRight.Items.AddRange(new object[] {
             "Right",
-            "R"});
-            this.cbRight.Location = new System.Drawing.Point(72, 42);
+            "D"});
+            this.cbRight.Location = new System.Drawing.Point(72, 69);
             this.cbRight.Name = "cbRight";
             this.cbRight.Size = new System.Drawing.Size(121, 21);
             this.cbRight.TabIndex = 4;

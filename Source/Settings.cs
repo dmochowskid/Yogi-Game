@@ -32,31 +32,47 @@ namespace Yogi
         
         private void cbLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (((ComboBox)sender).Text)
+            try
             {
-                case "L": lKey = Keys.L;
-                    break;
-                case "Left": lKey = Keys.Left;
-                    break;
-                default:
-                    throw new InvalidCastException();
+                switch (((ComboBox)sender).Text)
+                {
+                    case "A": lKey = Keys.A;
+                        break;
+                    case "Left": lKey = Keys.Left;
+                        break;
+                    default:
+                        throw new InvalidDataException();
+                }
             }
-        }
+            catch (InvalidDataException er)
+            {
+                MessageBox.Show(string.Format("Error description: {0}", er), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+}
 
         private void cbRight_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (((ComboBox)sender).Text)
+            try
             {
-                case "R":
-                    rKey = Keys.R;
-                    break;
-                case "Right":
-                    rKey = Keys.Right;
-                    break;
-                default:
-                    throw new InvalidCastException();
+                switch (((ComboBox)sender).Text)
+                {
+                    case "D":
+                        rKey = Keys.D;
+                        break;
+                    case "Right":
+                        rKey = Keys.Right;
+                        break;
+                    default:
+                        throw new InvalidDataException();
+                }
             }
-        }
+            catch (InvalidDataException er)
+            {
+                MessageBox.Show(string.Format("Error description: {0}", er), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+}
 
         private void bOK_Click(object sender, EventArgs e)
         {
@@ -67,22 +83,33 @@ namespace Yogi
         {
             switch (level)
             {
-                case Level.EASY: lEasy.ForeColor = newColor;
+                case Level.EASY:
+                    lEasy.ForeColor = newColor;
                     break;
-                case Level.MEDIUM: lMedium.ForeColor = newColor;
+                case Level.MEDIUM:
+                    lMedium.ForeColor = newColor;
                     break;
-                case Level.HARD: lHard.ForeColor = newColor;
+                case Level.HARD:
+                    lHard.ForeColor = newColor;
                     break;
                 default:
-                    throw new InvalidCastException();
+                    throw new InvalidDataException();
             }
         }
 
         private void changeActiveLevel(Level newLebel)
         {
-            setColor(level, Color.AliceBlue);
-            level = newLebel;
-            setColor(level, Color.SkyBlue);
+            try
+            {
+                setColor(level, Color.AliceBlue);
+                level = newLebel;
+                setColor(level, Color.SkyBlue);
+            }
+            catch (InvalidDataException e)
+            {
+                MessageBox.Show(string.Format("Error description: {0}", e), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
         }
 
         private void lEasy_Click(object sender, EventArgs e)

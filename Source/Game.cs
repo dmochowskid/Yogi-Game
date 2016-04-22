@@ -123,7 +123,7 @@ namespace Yogi
                          FontStyle.Regular,
                          GraphicsUnit.Point, ((byte)(0))),
                          b,
-                         gameWindowSize.Width - 160, 20);
+                         gameWindowSize.Width - 160, 2);
 
             b.Dispose();
             g.Dispose();

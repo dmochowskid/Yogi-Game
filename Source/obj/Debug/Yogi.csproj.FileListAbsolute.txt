@@ -1,0 +1,9 @@
+C:\Users\Damian\Google Drive\Yogi\bin\Debug\Yogi.exe.config
+C:\Users\Damian\Google Drive\Yogi\bin\Debug\Yogi.exe
+C:\Users\Damian\Google Drive\Yogi\bin\Debug\Yogi.pdb
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.csprojResolveAssemblyReference.cache
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.MainWindow.resources
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.Properties.Resources.resources
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.csproj.GenerateResource.Cache
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.exe
+C:\Users\Damian\Google Drive\Yogi\obj\Debug\Yogi.pdb

@@ -15,3 +15,4 @@ C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.Properties.Resources.res
 C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.csproj.GenerateResource.Cache
 C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.exe
 C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.pdb
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Debug\Yogi.Settings.resources

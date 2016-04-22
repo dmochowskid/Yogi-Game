@@ -34,6 +34,7 @@ namespace Yogi
             this.tbName.Location = new System.Drawing.Point(289, 159);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(100, 20);
+            this.tbName.MaxLength = 15;
             // 
             // bSubmit
             // 

@@ -63,7 +63,7 @@ namespace Yogi
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (game.startGame == true)
+            if (game.startGame == true || game.pausedGame == true)
             {
                 game.pause();
                 MessageBox.Show("You can not change settings during the game!");
@@ -77,7 +77,7 @@ namespace Yogi
         {
             if (game.startGame == true)
             {
-                game.move(set, e.KeyCode);
+                game.move(e.KeyCode);
             }
             if (e.KeyCode == Keys.Space)
             {

@@ -23,7 +23,6 @@ namespace Yogi
 
             // Set Timer
             myTimer = new Timer();
-            myTimer.Interval = gameSpeed;
             myTimer.Tick += new EventHandler(Refresh);
 
             // gameWindowSize
@@ -46,8 +45,7 @@ namespace Yogi
         }
 
         private const int moveYogi = 20;
-        private const int moveDown = 8; // Must : Rock.sizeOfImage.Height % moveDown == 0
-        private const int gameSpeed = 50;
+        private const int gameSpeed = 17;
 
         public bool pausedGame { get; private set; }
         public bool startGame { get; private set; }
@@ -61,6 +59,7 @@ namespace Yogi
         private PictureBox pictureBoxOnBitmap;
         private GameOver gOver;
         private BestScores bestScores;
+        private int moveDown; // Must : Rock.sizeOfImage.Height % moveDown == 0
         private int pixelFromLastAddNewElemenet;
         
         private void Refresh(Object myObject, EventArgs myEventArgs)
@@ -199,16 +198,16 @@ namespace Yogi
             pictureBoxOnBitmap.Refresh();
         }
 
-        public void move(Settings set, Keys keyPress)
+        public void move(Keys keyPress)
         {
-            if (keyPress == set.lKey)
+            if (keyPress == Settings.lKey)
                 if (yogi.position.X >= moveYogi)
                 {
                     yogi.move(-moveYogi, 0);
                     collisionDetection();
                 }
 
-            if (keyPress == set.rKey)
+            if (keyPress == Settings.rKey)
                 if (yogi.position.X <= gameWindowSize.Width - YogiBear.sizeOfPicture.Width - moveYogi)
                 {
                     yogi.move(moveYogi, 0);
@@ -224,6 +223,19 @@ namespace Yogi
             startGame = true;
             pausedGame = false;
             score = new Score(0);
+
+            switch (Settings.level)
+            {
+                case Level.EASY: moveDown = 2;
+                    break;
+                case Level.MEDIUM: moveDown = 4;
+                    break;
+                case Level.HARD: moveDown = 8;
+                    break;
+                default: moveDown = 4;
+                    break;
+            }
+            myTimer.Interval = gameSpeed;
 
             fallingElements.Clear();
 

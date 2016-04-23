@@ -18,28 +18,28 @@ namespace Yogi
             lGameOver.BackColor = Color.Transparent;
             lGameOver.Size = new Size(200, 29);
             lGameOver.Location = new Point(mainPictureBox.Size.Width / 2 - 72, 100);
-            lGameOver.Font = new Font("Showcard Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            lGameOver.ForeColor = System.Drawing.SystemColors.HotTrack;
+            lGameOver.Font = new Font("Showcard Gothic", 18F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            lGameOver.ForeColor = SystemColors.HotTrack;
             // 
             // tbName
             // 
             tbName = new TextBox();
-            this.tbName.Location = new System.Drawing.Point(289, 159);
-            this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(100, 20);
-            this.tbName.MaxLength = 15;
+            tbName.Location = new Point(289, 159);
+            tbName.Name = "tbName";
+            tbName.Size = new Size(100, 20);
+            tbName.MaxLength = 15;
             // 
             // bSubmit
             // 
             bSubmit = new Button();
-            this.bSubmit.Location = new System.Drawing.Point(301, 203);
-            this.bSubmit.Name = "bSubbmit";
-            this.bSubmit.Size = new System.Drawing.Size(75, 23);
-            this.bSubmit.TabIndex = 2;
-            this.bSubmit.Text = "Submit";
-            this.bSubmit.UseVisualStyleBackColor = true;
-            this.bSubmit.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.bSubmit.Click += (sender, e) =>
+            bSubmit.Location = new Point(301, 203);
+            bSubmit.Name = "bSubbmit";
+            bSubmit.Size = new Size(75, 23);
+            bSubmit.TabIndex = 2;
+            bSubmit.Text = "Submit";
+            bSubmit.UseVisualStyleBackColor = true;
+            bSubmit.ForeColor = SystemColors.HotTrack;
+            bSubmit.Click += (sender, e) =>
             {
                 BestScores.getInstance().updateScore(tbName.Text, Game.getInstance().score.points);
                 removeControls();
@@ -48,23 +48,21 @@ namespace Yogi
             this.mainPictureBox = mainPictureBox;
         }
 
-        private Label lGameOver;
-        private TextBox tbName;
-        private Button bSubmit;
+        private Label lGameOver; // etykieta z napisem 'Game Over'
+        private TextBox tbName; // Miejsce na podanie nazwy rekordzisty
+        private Button bSubmit; // Przycisk sluzacy do dodania rekordu do listy
         private PictureBox mainPictureBox;
         private static GameOver instance;
-        
+
         public static GameOver getInstance(PictureBox mainPictureBox)
         {
             if (instance == null)
                 instance = new GameOver(mainPictureBox);
             return instance;
         }
-
+        
         public static GameOver getInstance()
         {
-            if (instance == null)
-                instance = new GameOver();
             return instance;
         }
         
@@ -75,6 +73,9 @@ namespace Yogi
             addControls();
         }
 
+        /// <summary>
+        /// Dodanie wszystkich kontrolek nalezacych do GameOver
+        /// </summary>
         private void addControls()
         {
             mainPictureBox.Controls.Add(lGameOver);
@@ -82,6 +83,9 @@ namespace Yogi
             mainPictureBox.Controls.Add(tbName);
         }
 
+        /// <summary>
+        /// Usuniecie wszystkich kontrolek nalezacych do GameOver
+        /// </summary>
         private void removeControls()
         {
             mainPictureBox.Controls.Remove(lGameOver);

@@ -10,15 +10,14 @@ namespace Yogi
         {
             InitializeComponent();
 
-            pbGame.Size = new Size(ClientSize.Width, ClientSize.Height);
-
             bestScores = BestScores.getInstance(pbGame);
 
             game = Game.getInstance(pbGame);
-            
+
             set = new Settings();
         }
 
+        // Instancje modulow
         private Game game;
         private BestScores bestScores;
         private Settings set;
@@ -36,7 +35,7 @@ namespace Yogi
                 }
             }
 
-            pbGame.Focus();
+            pbGame.Focus(); // Utrzymanie skupienia na pictureBox'ie
             pbGame.Controls.Clear();
 
             game.display();
@@ -52,7 +51,7 @@ namespace Yogi
 
             bestScores.display();
         }
-
+        
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (game.startGame == true || game.pausedGame == true)
@@ -70,6 +69,11 @@ namespace Yogi
                 set.ShowDialog();
         }
 
+        /// <summary>
+        /// Akcje zwiazane z nacisnieciem klawisza
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void keyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (game.startGame == true)

@@ -9,11 +9,13 @@ namespace Yogi
 
     public partial class Settings : Form
     {
+        /// <summary>
+        /// Inicjalizacja, ustawienie domyslnych ustawien dotyczacych poziomu oraz sterowania
+        /// </summary>
         public Settings()
         {
             InitializeComponent();
-
-            // My initialize
+            
             level = Level.MEDIUM;
             lKey = Keys.Left;
             rKey = Keys.Right;
@@ -21,10 +23,15 @@ namespace Yogi
             changeActiveLevel(Level.MEDIUM);
         }
 
-        public static Level level { get; private set; }
-        public static Keys lKey { get; private set; }
-        public static Keys rKey { get; private set; }
+        public static Level level { get; private set; } // Poziom gry
+        public static Keys lKey { get; private set; } // Przycisk do poruszania sie Yogim w lewo
+        public static Keys rKey { get; private set; } // Przycisk do poruszania sie Yogim w prawo
         
+        /// <summary>
+        /// Zmiana sterowania w lewo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -46,6 +53,11 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Zmiana sterowania w prawo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbRight_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -69,11 +81,21 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Zamkniecie okna
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bOK_Click(object sender, EventArgs e)
         {
             this.Visible = false;
         }
 
+        /// <summary>
+        /// Zmiana koloru napisu na przycisku
+        /// </summary>
+        /// <param name="level">Rodzaj przycisku na ktormy ma zostac zmieniony kolor</param>
+        /// <param name="newColor">Nowy kolor</param>
         private void setColor(Level level, System.Drawing.Color newColor)
         {
             switch (level)
@@ -92,6 +114,10 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Zmiana poziomu gry
+        /// </summary>
+        /// <param name="newLebel">Nowy poziom gry</param>
         private void changeActiveLevel(Level newLebel)
         {
             try
@@ -106,7 +132,7 @@ namespace Yogi
                 Application.Exit();
             }
         }
-
+        
         private void lEasy_Click(object sender, EventArgs e)
         {
             changeActiveLevel(Level.EASY);

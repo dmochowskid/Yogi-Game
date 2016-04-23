@@ -10,45 +10,45 @@ namespace Yogi
     {
         private Game() { }
 
+        /// <summary>
+        /// Poczatkowa inicjalizacja gry
+        /// </summary>
         private Game(PictureBox pictureBoxOnBitmap)
         {
-            // Set Timer
             myTimer = new Timer();
             myTimer.Tick += new EventHandler(Refresh);
 
-            // gameWindowSize
             this.gameWindowSize = pictureBoxOnBitmap.Size;
+            gameWindowSize.Height -= 24; // 24 - stala wysokosc menu
 
-            // mainBitmap
             mainBitmap = new Bitmap(gameWindowSize.Width, gameWindowSize.Height);
             mainBitmap.MakeTransparent(Color.Pink);
 
-            // pictureBoxOnBitmap
             this.pictureBoxOnBitmap = pictureBoxOnBitmap;
             pictureBoxOnBitmap.Image = mainBitmap;
 
-            // falling elements
             fallingElements = new List<Element>();
 
             GameOver.getInstance(pictureBoxOnBitmap);
         }
 
-        private const int moveYogi = 20;
-        private const int gameSpeed = 17;
+        private const int moveYogi = 40; // Na ile pikseli ma sie przesuwac Yogi
+        private const int gameSpeed = 17; // Czas (w ms) odswierzania gry
 
-        public bool pausedGame { get; private set; }
-        public bool startGame { get; private set; }
-        public Score score { get; private set; }
-        private Timer myTimer;
-        private List<Element> fallingElements;
+        public bool pausedGame { get; private set; } // Czy gra jest zatrzymana
+        public bool startGame { get; private set; } // Czy gra jest aktywana (jeżeli pausedGame=true => startGame=false)
+        public Score score { get; private set; } // Aktualny stan punktow
+        private List<Element> fallingElements; // Lista aktualnie spadajacych elementow (Rock i Basket)
+        private Size gameWindowSize; // Rozmiar okna gry (wlacznie z menu)
+        private Bitmap mainBitmap; // Glowna Bitmap'a gry na ktorej jest wszystko rysowane
+        private PictureBox pictureBoxOnBitmap; // Kontrolka na ktorej jest umieszczony 'mainBitmap'
+        private int moveDown; // Na ile pikseli maja sie przesuwac spadajace elementy
+        private int pixelsFromLastAddNewElemenet; // Ile pixely przesunely sie juz spadajace elemnty od ostatniego dodania nowych elementow
+                                                  // pixelsFromLastAddNewElemenet == fallingElements.Height => dodanie nowych elementow
         private YogiBear yogi;
-        private Random _random = new Random();
-        private Size gameWindowSize;
-        private Bitmap mainBitmap;
-        private PictureBox pictureBoxOnBitmap;
-        private int moveDown; // Must : Rock.sizeOfImage.Height % moveDown == 0
-        private int pixelsFromLastAddNewElemenet;
         private static Game instance;
+        private Random _random = new Random();
+        private Timer myTimer;
 
         public static Game getInstance(PictureBox pictureBoxOnBitmap)
         {
@@ -59,32 +59,36 @@ namespace Yogi
 
         public static Game getInstance()
         {
-            if (instance == null)
-                instance = new Game();
             return instance;
         }
 
+        /// <summary>
+        /// Wykonanie wszystkich czynnosci zwiazanych z gra
+        /// Odswierzenie okna
+        /// </summary>
         private void Refresh(Object myObject, EventArgs myEventArgs)
         {
             if (startGame == false)
                 return;
 
-            // Przesuniecie wszystkich w dul
             moveToDown();
 
-            // Usuniecie niepotrzebnych
             deleteUseless();
 
-            // Dodanie nowych
-            addNewElements();
+            if (pixelsFromLastAddNewElemenet == Rock.sizeOfPicture.Height)
+            {
+                pixelsFromLastAddNewElemenet = 0;
+                addNewElements();
+            }
 
-            // Wykrycie kolizi
             collisionDetection();
 
-            // Wyswietlenie aktualnego stanu
             refreshBitmap();
         }
 
+        /// <summary>
+        /// Usuniecie starej i narysowanie nowej zawartosci na bitmape
+        /// </summary>
         private void refreshBitmap()
         {
             if (startGame == false)
@@ -92,18 +96,18 @@ namespace Yogi
 
             Graphics g = Graphics.FromImage(mainBitmap);
 
-            // Clear bitmap
+            // Czyszczenie starej zawartosci
             g.Clear(Color.Transparent);
             g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
-            // Draw falling elements
+            // Narysowanie spadajacych elementow
             foreach (var i in fallingElements)
                 g.DrawImage(i.getImage(), new Rectangle(i.position, Rock.sizeOfPicture));
 
-            // Draw Yogi
+            // Narysowanie Yogi'ego
             g.DrawImage(yogi.getImage(), new Rectangle(yogi.position, YogiBear.sizeOfPicture));
 
-            // Draw Points
+            // Napisanie wyniku w gornych prawym rogu
             SolidBrush b = new SolidBrush(SystemColors.HotTrack);
             g.DrawString(String.Format("Score: {0}", score.points),
                          new Font("Showcard Gothic", 18F,
@@ -118,43 +122,58 @@ namespace Yogi
             pictureBoxOnBitmap.Refresh();
         }
 
+        /// <summary>
+        /// Dodanie elementow w wylosowanych punktach
+        /// Prawdopodobienstwo dodania nowego elementu : 2/3 (67%)
+        /// </summary>
         private void addNewElements()
         {
-            if (pixelsFromLastAddNewElemenet == Rock.sizeOfPicture.Height)
-                pixelsFromLastAddNewElemenet = 0;
-            else
-                return;
+            int basketPoint = _random.Next(gameWindowSize.Width / Rock.sizeOfPicture.Width);
+            int rockPoint = basketPoint;
 
-            int x = _random.Next(gameWindowSize.Width / Rock.sizeOfPicture.Width);
-            int x2 = x;
-            while (x2 == x)
-                x2 = _random.Next(gameWindowSize.Width / Rock.sizeOfPicture.Width);
+            // Losowanie aby punkty byly rozne
+            while (rockPoint == basketPoint)
+                rockPoint = _random.Next(gameWindowSize.Width / Rock.sizeOfPicture.Width);
 
             if (_random.Next(3) < 2)
-                AddNewBasket(x * Basket.sizeOfPicture.Width);
+                AddNewBasket(basketPoint * Basket.sizeOfPicture.Width);
             if (_random.Next(3) < 2)
-                AddNewRock(x2 * Rock.sizeOfPicture.Width);
+                AddNewRock(rockPoint * Rock.sizeOfPicture.Width);
         }
 
+        /// <summary>
+        /// Dodanie nowego kamienia do listy na samej gorze ekranu
+        /// </summary>
+        /// <param name="x">Wspolrzedna wzgledem osi X nowego elementu</param>
         private void AddNewRock(int x)
         {
             Element tym = new Rock(new Point(x, -Rock.sizeOfPicture.Height));
             fallingElements.Add(tym);
         }
 
+        /// <summary>
+        /// Dodanie nowego koszyka do listy na samej gorze ekranu
+        /// </summary>
+        /// <param name="x">Wspolrzedna wzgledem osi X nowego elementu</param>
         private void AddNewBasket(int x)
         {
             Element tym = new Basket(new Point(x, -Basket.sizeOfPicture.Height));
             fallingElements.Add(tym);
         }
 
+        /// <summary>
+        /// Usuniecie z listy wszystkich elementow ktore wykraczaja poza ekran
+        /// </summary>
         private void deleteUseless()
         {
             for (int i = 0; i < fallingElements.Count; i++)
-                if (fallingElements[i].position.Y >= gameWindowSize.Height)
+                if (fallingElements[i].position.Y >= gameWindowSize.Height) // ?
                     fallingElements.Remove(fallingElements[i--]);
         }
 
+        /// <summary>
+        /// Przesuniecie wszystkich spadajacych elementow w dol
+        /// </summary>
         private void moveToDown()
         {
             foreach (var i in fallingElements)
@@ -162,35 +181,51 @@ namespace Yogi
             pixelsFromLastAddNewElemenet += moveDown;
         }
 
-        private void collisionDetection()
+        /// <summary>
+        /// Czy dwa elementy koliduja ze soba
+        /// </summary>
+        /// <param name="first">Pierwszy element</param>
+        /// <param name="second">Brugi element</param>
+        /// <returns>true - jeżeli elmenty koliduja ze soba
+        ///          false - w.p.p</returns>
+        private bool isCollision(Element first, Element second)
         {
             int distanceTop = 5;
             int distanceBottom = 15;
             int distanceSide = 5;
 
+            bool isTopCollision = first.position.Y + first.getImage().Height > (gameWindowSize.Height - second.getImage().Height + distanceTop);
+            bool isBottomCollision = first.position.Y < second.position.Y + second.getImage().Height - distanceBottom;
+            bool isSideCollision = Math.Abs(first.position.X + first.getImage().Width / 2 - second.position.X - second.getImage().Width / 2) < (second.getImage().Width + first.getImage().Width) / 2 - distanceSide;
+            return isTopCollision == true && isBottomCollision == true && isSideCollision == true;
+        }
+
+        /// <summary>
+        /// Sprawdza czy Yogi nie koliduje z jakims elementem, jezeli tak podejmuje odpowiednie dzialanie
+        /// </summary>
+        private void collisionDetection()
+        {
             for (int i = 0; i < fallingElements.Count; i++)
             {
-                if (fallingElements[i].position.Y + fallingElements[i].getImage().Height > (gameWindowSize.Height - YogiBear.sizeOfPicture.Height - 24 + distanceTop) && // Z gory
-                    fallingElements[i].position.Y < gameWindowSize.Height - 24 - distanceBottom) // Z dolu
+                if (isCollision(fallingElements[i], yogi) == true)
                 {
-                    // Jezeli odleglosc srodkow figur < Od dlugosc sumy srednic
-                    if (Math.Abs(fallingElements[i].position.X + Basket.sizeOfPicture.Width / 2 - yogi.position.X - YogiBear.sizeOfPicture.Width / 2) < (YogiBear.sizeOfPicture.Width + Basket.sizeOfPicture.Width) / 2 - distanceSide)
+                    if (fallingElements[i] is Basket)
                     {
-                        if (fallingElements[i] is Basket)
-                        {
-                            score.addPoints(100);
-                            fallingElements.Remove(fallingElements[i--]);
-                        }
-                        else if (fallingElements[i] is Rock)
-                        {
-                            stop();
-                            GameOver.getInstance().display();
-                        }
+                        score.addPoints(100);
+                        fallingElements.Remove(fallingElements[i--]);
+                    }
+                    else if (fallingElements[i] is Rock)
+                    {
+                        stop();
+                        GameOver.getInstance().display();
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Czyszczenie obrazu gry
+        /// </summary>
         private void clearBitmap()
         {
             Graphics g = Graphics.FromImage(mainBitmap);
@@ -199,11 +234,15 @@ namespace Yogi
             pictureBoxOnBitmap.Refresh();
         }
 
+        /// <summary>
+        /// Przesunie Yogi'ego w odpowienim kierunku
+        /// </summary>
+        /// <param name="keyPress">Klawisz jaki zostal nacisniety</param>
         public void move(Keys keyPress)
         {
             if (keyPress == Settings.lKey && yogi.position.X >= moveYogi)
                 yogi.move(-moveYogi, 0);
-            else if (keyPress == Settings.rKey && yogi.position.X + moveYogi < gameWindowSize.Width - YogiBear.sizeOfPicture.Width)
+            else if (keyPress == Settings.rKey && yogi.position.X + moveYogi <= gameWindowSize.Width - YogiBear.sizeOfPicture.Width)
                 yogi.move(moveYogi, 0);
             else
                 return;
@@ -226,9 +265,14 @@ namespace Yogi
 
             fallingElements.Clear();
 
-            yogi = new YogiBear(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % YogiBear.sizeOfPicture.Width), gameWindowSize.Height - YogiBear.sizeOfPicture.Height - 24));
+            // Ustawienie Yogi'ego na dole na srodku
+            yogi = new YogiBear(new Point(gameWindowSize.Width / 2 - ((gameWindowSize.Width / 2) % YogiBear.sizeOfPicture.Width),
+                                          gameWindowSize.Height - YogiBear.sizeOfPicture.Height));
         }
 
+        /// <summary>
+        /// Ustawienie poziomu trudnosci (moveDown)
+        /// </summary>
         private void setLevel()
         {
             switch (Settings.level)
@@ -248,6 +292,9 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Zatrzymanie gry (Nie ma mozliwosci wznowienia)
+        /// </summary>
         public void stop()
         {
             if (startGame == true)
@@ -259,6 +306,9 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Wznowienie gry
+        /// </summary>
         public void resume()
         {
             if (pausedGame == true)
@@ -269,6 +319,9 @@ namespace Yogi
             }
         }
 
+        /// <summary>
+        /// Wstrzymanie gry
+        /// </summary>
         public void pause()
         {
             if (startGame == true)

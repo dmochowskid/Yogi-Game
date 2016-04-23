@@ -1,0 +1,9 @@
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Release\Yogi.exe.config
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Release\Yogi.exe
+C:\Users\Damian\Desktop\Yogi-Game\Source\bin\Release\Yogi.pdb
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.MainWindow.resources
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.Properties.Resources.resources
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.Settings.resources
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.csproj.GenerateResource.Cache
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.exe
+C:\Users\Damian\Desktop\Yogi-Game\Source\obj\Release\Yogi.pdb

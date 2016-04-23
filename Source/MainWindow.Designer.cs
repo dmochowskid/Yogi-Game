@@ -71,16 +71,6 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
-            // pbGame
-            // 
-            this.pbGame.BackColor = System.Drawing.Color.Transparent;
-            this.pbGame.Location = new System.Drawing.Point(0, 24);
-            this.pbGame.Name = "pbGame";
-            this.pbGame.Size = new System.Drawing.Size(100, 50);
-            this.pbGame.TabIndex = 1;
-            this.pbGame.TabStop = false;
-            this.pbGame.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.keyDown);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,7 +92,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbGame)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            //
+            // pbGame
+            // 
+            this.pbGame.BackColor = System.Drawing.Color.Transparent;
+            this.pbGame.Location = new System.Drawing.Point(0, 24);
+            this.pbGame.Name = "pbGame";
+            this.pbGame.Size = new System.Drawing.Size(100, 50);
+            this.pbGame.TabIndex = 1;
+            this.pbGame.TabStop = false;
+            this.pbGame.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.keyDown);
+            this.pbGame.Size = new System.Drawing.Size(ClientSize.Width, ClientSize.Height);
         }
 
         #endregion
